@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Speed Test</title>
+</head>
+<body>
+  <h1>Speed Test</h1>
+  <div>
+    <button id='start-100-m' type='button' data-size='100m'>100MB</button>
+    <button id='start-1-g' type='button' data-size='1g'>1GB</button>
+  </div>
+  <h2>Result: </h2>
+  <p>Total time: <span id='total-time'>0</span>ms</p>
+  <p>Avg. speed: <span id='avg-speed'>0</span>Mb/s<p>
+  <script>
+    (function () {
+      document.getElementById('start-100-m').addEventListener('click', test100m, false);
+      document.getElementById('start-1-g').addEventListener('click', test1g, false);
+
+      function test100m() {
+        var start = Date.now();
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            var time = Date.now() - start;
+            var speed = (100 * 8) / (time / 1000);
+
+            document.getElementById('total-time').innerHTML = time;
+            document.getElementById('avg-speed').innerHTML = speed;
+          }
+        }
+        xhr.onprogress = function () {
+          console.log('progress');
+        }
+        xhr.open('GET', '/100m');
+        xhr.send();
+      }
+
+      function test1g() {
+        var start = Date.now();
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            var time = Date.now() - start;
+            var speed = (100 * 8) / (time / 1000);
+
+            document.getElementById('total-time').innerHTML = time;
+            document.getElementById('avg-speed').innerHTML = speed;
+          }
+        }
+        xhr.onprogress = function () {
+          console.log('progress');
+        }
+        xhr.open('GET', '/1g');
+        xhr.send();
+      }
+    })();
+  </script>
+</body>
+</html>
